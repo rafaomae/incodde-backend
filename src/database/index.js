@@ -1,10 +1,10 @@
-const uri = "mongodb://root:root@localhost:27017/crud?authSource=admin";
 const mongoose = require("mongoose");
+const { DB } = require("../config");
 
 module.exports = {
   init() {
     mongoose
-      .connect(uri, {
+      .connect(DB, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,

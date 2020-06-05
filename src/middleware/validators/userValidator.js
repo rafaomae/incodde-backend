@@ -13,7 +13,6 @@ const schema = Joi.object().keys({
     "date.format": "Formato da Data de Nascimento é inválida",
     "any.required": "Data não informada",
   }),
-  // .message("Cpf não informado"),
   cpf: Joi.string().empty().required().messages({
     "string.base": "CPF não informado",
     "string.empty": "CPF não pode ser vazio",
@@ -24,12 +23,14 @@ const schema = Joi.object().keys({
     "string.empty": "Endereço não pode ser vazio",
     "any.required": "Endereço não informado",
   }),
-  bio: Joi.string().optional(),
+  bio: Joi.string().allow(""),
   email: Joi.string().email().required().messages({
+    "string.empty": "E-mail não informado",
     "string.email": "E-mail inválido",
     "any.required": "E-mail não informado",
   }),
   password: Joi.string().min(6).required().messages({
+    "string.empty": "Senha não informada",
     "string.min": "Senha requer no mínimo 6 caracteres",
     "any.required": "Senha não informada",
   }),

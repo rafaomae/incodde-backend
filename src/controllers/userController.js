@@ -1,43 +1,57 @@
-const moongose = require("mongoose");
-const User = require("../database/models/User");
+const mongoose = require("mongoose");
+const {
+  getAll,
+  findById,
+  findOneByEmail,
+  findOneByCpf,
+  create,
+  update,
+  remove,
+} = require("../services/user");
 
 module.exports = {
   async index(req, res) {
-    const users = await User.find({});
-
+    const users = await getAll();
     return res.json(users);
   },
   async post(req, res) {
     const newUser = req.body;
-    const userDb = await User.findOne({ cpf: newUser.cpf });
-    if (userDb)
+    const userCpfDb = await findOneByCpf(newUser.cpf);
+    if (userCpfDb)
       return res.status(400).json({ err: "Já existe um usuário com esse cpf" });
 
-    const user = await User.create(newUser);
+    const userEmailDb = await findOneByEmail(newUser.email);
+    if (userEmailDb)
+      return res
+        .status(400)
+        .json({ err: "Já existe um usuário com esse e-mail" });
+    try {
+      const user = await create(newUser);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ err: "Não foi possível criar o usuário" });
+    }
     return res.status(204).send();
   },
   async update(req, res) {
-    const { id } = request.params;
+    const { id } = req.params;
     const editedUser = req.body;
 
     const idDb = mongoose.Types.ObjectId(id);
-    let user = await User.findById(idDb);
+    let user = await findById(idDb);
     if (user) {
-      user = await User.findByIdAndUpdate(idDb, editedUser, {
-        new: true,
-      });
-
+      user = update(id, editedUser);
       return res.status(204).send();
     } else return res.status(404).json({ err: "Usuário não encontrado" });
   },
-  async delete(request, res) {
-    const { id } = request.params;
+  async remove(request, res) {
+    const { id } = req.params;
 
     const idDb = mongoose.Types.ObjectId(id);
-    let user = await User.findById(idDb);
+    let user = await findById(idDb);
 
     if (user) {
-      await User.findByIdAndDelete(mongoose.Types.ObjectId(id));
+      await remove(id);
       return res.status(204).send();
     } else res.status(404).json({ err: "Usuário não encontrado" });
   },

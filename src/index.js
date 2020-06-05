@@ -1,17 +1,22 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const database = require("./database/connect");
-const routes = require("./routes");
-const port = 3330;
+const { PORT } = require("./config");
+const database = require("./database");
+
+const user = require("./routes/user");
+const login = require("./routes/login");
 
 const app = express();
 database.init();
 
 app.use(cors());
-app.use(express.json());
-app.use(routes);
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`Backend running in port ${port}`);
+app.use("/api/", user);
+app.use("/api/", login);
+
+app.listen(PORT, () => {
+  console.log(`Backend running in port ${PORT}`);
 });
