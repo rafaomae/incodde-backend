@@ -5,7 +5,8 @@ const meetingSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
-    time: { type: String, required: true },
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     createdBy: { type: String, required: true },
     participants: { type: [String], required: true },
   },

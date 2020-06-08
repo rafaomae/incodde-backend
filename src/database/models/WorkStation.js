@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const workStationScheduleSchema = new Schema(
   {
-    from: { type: Date, required: true },
-    to: { type: Date, required: true },
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     createdBy: { type: String, required: true },
     usedBy: { type: String, required: true },
   },

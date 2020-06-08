@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+
 const User = require("../database/models/User");
 
 module.exports = {
@@ -6,7 +8,8 @@ module.exports = {
     return await User.find({});
   },
   async findById(id) {
-    return await User.findById(id);
+    const idDb = mongoose.Types.ObjectId(id);
+    return await User.findById(idDb);
   },
   async findOneByEmail(email) {
     return await User.findOne({ email: email });
@@ -19,9 +22,11 @@ module.exports = {
     return await User.create(user);
   },
   async update(id, data) {
-    return await User.findByIdAndUpdate(id, data, { new: true });
+    const idDb = mongoose.Types.ObjectId(id);
+    return await User.findByIdAndUpdate(idDb, data, { new: true });
   },
   async remove(id) {
-    return await User.findOneAndDelete(id);
+    const idDb = mongoose.Types.ObjectId(id);
+    return await User.findOneAndDelete(idDb);
   },
 };

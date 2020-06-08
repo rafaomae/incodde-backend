@@ -1,4 +1,4 @@
-const Joi = require("@hapi/joi");
+const { celebrate, Joi } = require("celebrate");
 
 const schema = Joi.object().keys({
   email: Joi.string().email().required().messages({
@@ -13,11 +13,10 @@ const schema = Joi.object().keys({
   }),
 });
 
-module.exports = {
-  validateBody(req, res, next) {
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send({ error: error.details[0].message });
+const postValidator = celebrate({
+  body: schema,
+});
 
-    return next();
-  },
+module.exports = {
+  postValidator,
 };

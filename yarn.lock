@@ -26,7 +26,7 @@
   dependencies:
     moment "2.x.x"
 
-"@hapi/joi@^17.1.0", "@hapi/joi@^17.1.1":
+"@hapi/joi@17.x.x", "@hapi/joi@^17.1.0":
   version "17.1.1"
   resolved "https://registry.yarnpkg.com/@hapi/joi/-/joi-17.1.1.tgz#9cc8d7e2c2213d1e46708c6260184b447c661350"
   integrity sha512-p4DKeZAoeZW4g3u7ZeRo+vCDuSDgSvtsB/NpfjXEHTUjSeINAi/RrVOWiVQ1isaoLzMvFEhe8n5065mQq1AdQg==
@@ -248,6 +248,14 @@ camelcase@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
+
+celebrate@^12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/celebrate/-/celebrate-12.1.1.tgz#73e4ef27ff44b3a6a68b5d779e6a801139a5ff15"
+  integrity sha512-d6A0KRX3sbGCbB/id6D4FAqGHwRfFb1B2e77pberUFF1awsF3P9RsLeeRYwbsrgA6Zj7J01SA07NgUyR6BeJVQ==
+  dependencies:
+    "@hapi/joi" "17.x.x"
+    escape-html "1.0.3"
 
 chalk@^3.0.0:
   version "3.0.0"
@@ -499,7 +507,7 @@ escape-goat@^2.0.0:
   resolved "https://registry.yarnpkg.com/escape-goat/-/escape-goat-2.1.1.tgz#1b2dc77003676c457ec760b2dc68edb648188675"
   integrity sha512-8/uIhbG12Csjy2JEW7D9pHbreaVaS/OpN3ycnyvElTdwM5n6GY6W6e2IPemfvGZeUMqZ9A/3GqIZMgKnBhAw/Q==
 
-escape-html@~1.0.3:
+escape-html@1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=

@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const {
   getAll,
   findById,
@@ -13,6 +12,10 @@ module.exports = {
   async index(req, res) {
     const users = await getAll();
     return res.json(users);
+  },
+  async getById(req, res) {
+    const { id } = req.params;
+    return res.json(await findById(id));
   },
   async post(req, res) {
     const newUser = req.body;
@@ -37,8 +40,7 @@ module.exports = {
     const { id } = req.params;
     const editedUser = req.body;
 
-    const idDb = mongoose.Types.ObjectId(id);
-    let user = await findById(idDb);
+    let user = await findById(id);
     if (user) {
       user = update(id, editedUser);
       return res.status(204).send();
@@ -47,8 +49,7 @@ module.exports = {
   async remove(request, res) {
     const { id } = req.params;
 
-    const idDb = mongoose.Types.ObjectId(id);
-    let user = await findById(idDb);
+    let user = await findById(id);
 
     if (user) {
       await remove(id);

@@ -1,8 +1,19 @@
-const JoiBase = require("@hapi/joi");
+const { celebrate, Joi: JoiBase } = require("celebrate");
+const { cpf } = require("cpf-cnpj-validator");
 const JoiDate = require("@hapi/joi-date");
+const { customIdValidator } = require("./id");
 
 const Joi = JoiBase.extend(JoiDate);
-const schema = Joi.object().keys({
+
+const customCpfValidator = (value, helpers) => {
+  console.log(value);
+
+  if (!cpf.isValid(value)) return helpers.error("cpf.invalid");
+
+  return value;
+};
+
+const bodySchema = Joi.object().keys({
   name: Joi.string().required().empty().messages({
     "string.base": "Nome não informado",
     "string.empty": "Nome não pode ser vazio",
@@ -13,9 +24,10 @@ const schema = Joi.object().keys({
     "date.format": "Formato da Data de Nascimento é inválida",
     "any.required": "Data não informada",
   }),
-  cpf: Joi.string().empty().required().messages({
+  cpf: Joi.string().empty().required().custom(customCpfValidator).messages({
     "string.base": "CPF não informado",
     "string.empty": "CPF não pode ser vazio",
+    "cpf.invalid": "CPF informado está inválido",
     "any.required": "CPF não informado",
   }),
   address: Joi.string().empty().required().messages({
@@ -35,13 +47,33 @@ const schema = Joi.object().keys({
     "any.required": "Senha não informada",
   }),
   isAdmin: Joi.boolean().required(),
+  confirmed: Joi.boolean(),
+});
+
+const getValidator = celebrate({
+  params: {
+    id: customIdValidator,
+  },
+});
+
+const postValidator = celebrate({
+  body: bodySchema,
+});
+
+const putValidator = celebrate({
+  params: {
+    id: customIdValidator,
+  },
+  body: bodySchema,
+});
+
+const removeValidator = celebrate({
+  params: customIdValidator,
 });
 
 module.exports = {
-  validateBody(req, res, next) {
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send({ error: error.details[0].message });
-
-    return next();
-  },
+  getValidator,
+  postValidator,
+  putValidator,
+  removeValidator,
 };

@@ -17,12 +17,13 @@ module.exports = {
       const token = jwt.sign(
         {
           user_id: user._id,
-          user_name: user.name,
           role: user.admin ? "ADMIN" : "USER",
         },
         SECRET
       );
-      return res.json({ token: token });
+      return res.json({
+        token: token,
+      });
     } else {
       return res.status(400).json({ err: "Senha incorreta" });
     }

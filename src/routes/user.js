@@ -2,19 +2,26 @@ const { Router } = require("express");
 
 const {
   index,
+  getById,
   post,
   update,
   remove,
 } = require("../controllers/userController");
 
-const { validateId } = require("../middleware/validators/paramsValidator");
-const { validateBody } = require("../middleware/validators/userValidator");
-const auth = require("../middleware/authentication/auth");
+const {
+  getValidator,
+  postValidator,
+  putValidator,
+  removeValidator,
+} = require("../middlewares/validators/user");
+
+const { validateAuth } = require("../middlewares/authentication/auth");
 
 const routes = Router();
-routes.get("/users", index);
-routes.post("/user", validateBody, post);
-routes.put("/user/:id", validateId, validateBody, update);
-routes.delete("/user/:id", validateId, remove);
+routes.get("/users", validateAuth(["ADMIN"]), index);
+routes.get("/user/:id", validateAuth(), getValidator, getById);
+routes.post("/user", validateAuth(["ADMIN"]), postValidator, post);
+routes.put("/user/:id", validateAuth(), putValidator, update);
+routes.delete("/user/:id", removeValidator, remove);
 
 module.exports = routes;

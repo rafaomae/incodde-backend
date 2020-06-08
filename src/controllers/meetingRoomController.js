@@ -1,11 +1,10 @@
-const mongoose = require("mongoose");
 const {
   getAll,
   findById,
   create,
   update,
   remove,
-} = require("../services/workstation");
+} = require("../services/meetingRoom");
 
 module.exports = {
   async getAll(req, res) {
@@ -16,34 +15,35 @@ module.exports = {
     return res.json(await findById(id));
   },
   async post(req, res) {
-    const newWorkStation = req.body;
+    const newMeetingRoom = req.body;
     try {
-      const workstation = await create(newWorkStation);
+      const meetingRoom = await create(newMeetingRoom);
       return res.status(204).send();
     } catch (err) {
       console.error(err);
       return res
         .status(500)
-        .json({ err: "Não foi possível criar o WorkStation" });
+        .json({ err: "Não foi possível criar a sala de reunião" });
     }
   },
   async update(req, res) {
     const { id } = req.params;
-    const editedWorkStation = req.body;
+    const editedMeetingRoom = req.body;
 
-    let workStation = await findById(id);
-    if (workStation) {
-      workStation = await update(id, editedWorkStation);
+    let meetingRoom = await findById(id);
+    if (meetingRoom) {
+      meetingRoom = await update(id, editedMeetingRoom);
       return res.status(204).send();
-    } else return res.status(404).json({ err: "WorkStation não encontrado" });
+    } else
+      return res.status(404).json({ err: "Sala de reunião não encontrada" });
   },
   async remove(req, res) {
     const { id } = req.params;
-    let workStation = await findById(id);
+    let meetingRoom = await findById(id);
 
-    if (workStation) {
+    if (meetingRoom) {
       await remove(id);
       return res.status(204).send();
-    } else res.status(404).json({ err: "WorkStation não encontrado" });
+    } else res.status(404).json({ err: "Sala de reunião não encontrada" });
   },
 };
