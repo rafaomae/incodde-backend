@@ -10,7 +10,7 @@ const userSchema = new Schema(
     bio: { type: String },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, required: true },
+    isAdmin: { type: Boolean, required: true, default: false },
     confirmed: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }

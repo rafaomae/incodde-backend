@@ -6,8 +6,6 @@ const { customIdValidator } = require("./id");
 const Joi = JoiBase.extend(JoiDate);
 
 const customCpfValidator = (value, helpers) => {
-  console.log(value);
-
   if (!cpf.isValid(value)) return helpers.error("cpf.invalid");
 
   return value;
@@ -67,13 +65,32 @@ const putValidator = celebrate({
   body: bodySchema,
 });
 
+const patchAdminValidator = celebrate({
+  params: {
+    id: customIdValidator,
+    isAdmin: Joi.boolean().required().messages({
+      "any.required": "Flag Admin não informada",
+    }),
+  },
+});
+
+const patchConfirmedValidator = celebrate({
+  params: {
+    id: customIdValidator,
+  },
+});
+
 const removeValidator = celebrate({
-  params: customIdValidator,
+  params: {
+    id: customIdValidator,
+  },
 });
 
 module.exports = {
   getValidator,
   postValidator,
   putValidator,
+  patchAdminValidator,
+  patchConfirmedValidator,
   removeValidator,
 };

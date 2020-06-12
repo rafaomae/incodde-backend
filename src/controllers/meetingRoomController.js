@@ -21,9 +21,10 @@ module.exports = {
       return res.status(204).send();
     } catch (err) {
       console.error(err);
-      return res
-        .status(500)
-        .json({ err: "Não foi possível criar a sala de reunião" });
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Não foi possível criar a sala de reunião",
+      });
     }
   },
   async update(req, res) {
@@ -35,7 +36,9 @@ module.exports = {
       meetingRoom = await update(id, editedMeetingRoom);
       return res.status(204).send();
     } else
-      return res.status(404).json({ err: "Sala de reunião não encontrada" });
+      return res
+        .status(404)
+        .json({ statusCode: 404, message: "Sala de reunião não encontrada" });
   },
   async remove(req, res) {
     const { id } = req.params;
@@ -44,6 +47,9 @@ module.exports = {
     if (meetingRoom) {
       await remove(id);
       return res.status(204).send();
-    } else res.status(404).json({ err: "Sala de reunião não encontrada" });
+    } else
+      res
+        .status(404)
+        .json({ statusCode: 404, message: "Sala de reunião não encontrada" });
   },
 };

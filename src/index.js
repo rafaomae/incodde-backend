@@ -10,6 +10,7 @@ const user = require("./routes/user");
 const login = require("./routes/login");
 const workstations = require("./routes/workStation");
 const meetingRoom = require("./routes/meetingRoom");
+const email = require("./routes/email");
 
 const app = express();
 database.init();
@@ -21,6 +22,7 @@ app.use("/api", user);
 app.use("/api", login);
 app.use("/api", workstations);
 app.use("/api", meetingRoom);
+app.use("/api", email);
 
 app.use(errors());
 

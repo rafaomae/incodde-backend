@@ -10,6 +10,7 @@ const {
 
 const {
   getMeeting,
+  getAvailableMeetings,
   createMeeting,
   updateMeeting,
   removeMeeting,
@@ -40,6 +41,12 @@ routes.delete(
   validateAuth(["ADMIN"]),
   removeValidator,
   remove
+);
+
+routes.get(
+  "/meetingroom/meeting/available",
+  validateAuth(),
+  getAvailableMeetings
 );
 
 routes.get(

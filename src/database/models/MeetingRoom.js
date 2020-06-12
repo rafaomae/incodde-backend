@@ -8,7 +8,11 @@ const meetingSchema = new Schema(
     start: { type: Date, required: true },
     end: { type: Date, required: true },
     createdBy: { type: String, required: true },
-    participants: { type: [String], required: true },
+    participants: {
+      type: [String],
+      required: true,
+      default: [],
+    },
   },
   { timestamps: true }
 );

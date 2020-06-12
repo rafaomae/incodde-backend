@@ -10,22 +10,31 @@ module.exports = {
 
     const user = await findOneByEmail(email);
     if (!user) {
-      return res.status(404).json({ err: "Usuário não encontrado" });
+      return res
+        .status(404)
+        .json({ statusCode: 404, message: "Usuário não encontrado" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const token = jwt.sign(
         {
           user_id: user._id,
-          role: user.admin ? "ADMIN" : "USER",
+          user_email: user.email,
+          role: user.isAdmin ? "ADMIN" : "USER",
         },
         SECRET
       );
       return res.json({
+        name: user.name,
+        email: user.email,
         token: token,
+        isAdmin: user.isAdmin,
+        confirmed: user.confirmed,
       });
     } else {
-      return res.status(400).json({ err: "Senha incorreta" });
+      return res
+        .status(400)
+        .json({ statusCode: 400, message: "Senha incorreta" });
     }
   },
 };

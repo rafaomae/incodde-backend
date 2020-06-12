@@ -56,6 +56,20 @@ module.exports = {
     });
     return workStation.schedules[0];
   },
+  async getUserSchedule(user) {
+    let workStation;
+    if (user.isAdmin) {
+      workStation = await WorkStation.find({});
+    } else {
+      workStation = await WorkStation.find({
+        "schedules.usedBy": user.email,
+      }).select({
+        name: "*",
+        schedules: { $elemMatch: { usedBy: user.email } },
+      });
+    }
+    return workStation;
+  },
   async saveSchedule(workStation, schedule) {
     workStation.schedules.push(schedule);
     await workStation.save();

@@ -10,6 +10,7 @@ const {
 
 const {
   getSchedule,
+  getUserSchedules,
   createSchedule,
   updateSchedule,
   removeSchedule,
@@ -33,6 +34,7 @@ const {
 
 const routes = Router();
 routes.get("/workstations", validateAuth(), getAll);
+routes.get("/workstations/schedules", validateAuth(), getUserSchedules);
 routes.get("/workstation/:id", validateAuth(), getValidator, getById);
 routes.post("/workstation", validateAuth(["ADMIN"]), postValidator, post);
 routes.put("/workstation/:id", validateAuth(["ADMIN"]), putValidator, update);
@@ -42,7 +44,6 @@ routes.delete(
   removeValidator,
   remove
 );
-
 routes.get(
   "/workstation/:id/schedule/:scheduleId",
   validateAuth(),

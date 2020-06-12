@@ -25,18 +25,7 @@ const bodySchema = Joi.object().keys({
     "string.empty": "Criador da reunião não pode ser vazio",
     "any.required": "Criador da reunião não informado",
   }),
-  participants: Joi.array()
-    .min(1)
-    .items(
-      Joi.string().empty().messages({
-        "string.empty": "Participante não pode ser vazio",
-      })
-    )
-    .required()
-    .messages({
-      "array.min": "É necessário ter pelo menos 1 participante",
-      "any.required": "Participantes não informados",
-    }),
+  participants: Joi.array().optional(),
 });
 
 const getMeetingValidator = celebrate({

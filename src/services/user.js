@@ -23,7 +23,16 @@ module.exports = {
   },
   async update(id, data) {
     const idDb = mongoose.Types.ObjectId(id);
+    data.password = await bcrypt.hash(data.password, 10);
     return await User.findByIdAndUpdate(idDb, data, { new: true });
+  },
+  async setAdmin(user, isAdmin) {
+    user.isAdmin = isAdmin;
+    await user.save();
+  },
+  async setConfirmed(user) {
+    user.confirmed = true;
+    await user.save();
   },
   async remove(id) {
     const idDb = mongoose.Types.ObjectId(id);

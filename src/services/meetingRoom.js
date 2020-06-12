@@ -59,6 +59,14 @@ module.exports = {
     });
     return meetingRoom.meetings[0];
   },
+  async getAvailableMeetings() {
+    const meetingRooms = await MeetingRoom.find({
+      "meetings.end": { $gt: new Date() },
+    }).select({
+      meetings: { $elemMatch: { end: { $gt: new Date() } } },
+    });
+    return meetingRooms;
+  },
   async saveMeeting(meetingRoom, meeting) {
     meetingRoom.meetings.push(meeting);
     await meetingRoom.save();

@@ -22,9 +22,10 @@ module.exports = {
       return res.status(204).send();
     } catch (err) {
       console.error(err);
-      return res
-        .status(500)
-        .json({ err: "Não foi possível criar o WorkStation" });
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Não foi possível criar o WorkStation",
+      });
     }
   },
   async update(req, res) {
@@ -35,7 +36,10 @@ module.exports = {
     if (workStation) {
       workStation = await update(id, editedWorkStation);
       return res.status(204).send();
-    } else return res.status(404).json({ err: "WorkStation não encontrado" });
+    } else
+      return res
+        .status(404)
+        .json({ statusCode: 404, message: "WorkStation não encontrado" });
   },
   async remove(req, res) {
     const { id } = req.params;
@@ -44,6 +48,9 @@ module.exports = {
     if (workStation) {
       await remove(id);
       return res.status(204).send();
-    } else res.status(404).json({ err: "WorkStation não encontrado" });
+    } else
+      res
+        .status(404)
+        .json({ statusCode: 404, message: "WorkStation não encontrado" });
   },
 };
